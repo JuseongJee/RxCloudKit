@@ -99,6 +99,8 @@ public final class Cache {
 
         self.fetchDatabaseChanges(fetchCompletionHandler: completionHandler)
 
+			self.resumeLongLivedOperations()
+
     }
 
     public func applicationDidReceiveRemoteNotification(userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
@@ -196,5 +198,29 @@ public final class Cache {
         self.cachedZoneIDs = []
         self.fetchZoneChanges(recordZoneIDs: recordZoneIDs, fetchCompletionHandler: completionHandler)
     }
+
+	public func resumeLongLivedOperations() {
+		//https://developer.apple.com/documentation/cloudkit/ckoperation
+		cloud.container.fetchAllLongLivedOperationIDs(completionHandler: { (operationIDs, error) in
+			if let error = error {
+				os_log("Error fetching long lived operations: %@", log: Log.cache, type: .error, error.localizedDescription)
+				// Handle error
+				return
+			}
+			guard let identifiers = operationIDs else { return }
+			for operationID in identifiers {
+				self.cloud.container.fetchLongLivedOperation(withID: operationID, completionHandler: { (operation, error) in
+					if let error = error {
+						os_log("Error fetching operation: %@\n%@", log: Log.cache, type: .error, operationID, error.localizedDescription)
+						// Handle error
+						return
+					}
+					guard let operation = operation else { return }
+					// Add callback handlers to operation
+					self.cloud.container.add(operation)
+				})
+			}
+		})
+	}
 
 }
