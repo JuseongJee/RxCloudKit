@@ -75,32 +75,33 @@ final class RecordModifier {
     }
     
     private func modifyRecordsCompletionBlock(records: [CKRecord]?, recordIDs: [CKRecordID]?, error: Error?) {
-        if let error = error {
-            if let ckError = error as? CKError {
-                switch ckError.code {
-                case .limitExceeded:
-                    self.chunk = Int(self.chunk / 2)
-                    self.batch()
-                    return
-                default:
-                    break
-                }
-            }
-            observer.on(.error(error))
-            return
-        }
-        if let records = records {
-            observer.on(.next(.changed(records)))
-        }
-        if let recordIDs = recordIDs {
-            observer.on(.next(.deleted(recordIDs)))
-        }
-        if self.until() < self.count {
-            self.index += self.chunk
-            self.batch()
-        } else {
-            observer.on(.completed)
-        }
+
+		switch CKResultHandler.resultType(with: error) {
+		case .success:
+			if let records = records {
+				observer.on(.next(.changed(records)))
+			}
+			if let recordIDs = recordIDs {
+				observer.on(.next(.deleted(recordIDs)))
+			}
+			if self.until() < self.count {
+				self.index += self.chunk
+				self.batch()
+			} else {
+				observer.on(.completed)
+			}
+		case .chunk:
+			self.chunk = Int(self.chunk / 2)
+			self.batch()
+		case .fail(let reason):
+			observer.on(.error(reason))
+		case .recoverableError(let reason):
+			observer.on(.error(reason))
+		case .retry(let timeToWait, _):
+			CKResultHandler.retryOperationIfPossible(retryAfter: timeToWait, block: {
+				self.batch()
+			})
+		}
     }
     
 }

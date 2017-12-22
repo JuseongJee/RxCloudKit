@@ -33,11 +33,16 @@ public extension Reactive where Base: CKRecordZone {
             let operation = CKModifyRecordZonesOperation(recordZonesToSave: recordZonesToSave, recordZoneIDsToDelete: recordZoneIDsToDelete)
             operation.qualityOfService = .userInitiated
             operation.modifyRecordZonesCompletionBlock = { (saved, deleted, error) in
-                if let error = error {
-                    single(.error(error))
-                    return
-                }
-                single(.success((saved, deleted)))
+
+				// modifyRecordZonesCompletionBlock only emmit error of type partialFailure
+				switch CKResultHandler.resultType(with: error) {
+				case .success:
+					single(.success((saved, deleted)))
+				case .fail(let reason):
+					single(.error(reason))
+				default:
+					return
+				}
             }
             database.add(operation)
             return Disposables.create()

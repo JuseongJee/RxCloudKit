@@ -8,6 +8,7 @@
 
 import RxSwift
 import CloudKit
+import os.log
 
 public enum ZoneEvent {
     case changed(CKRecordZoneID)
@@ -49,16 +50,37 @@ final class ZoneChangeFetcher {
     }
     
     private func fetchDatabaseChangesCompletionBlock(serverChangeToken: CKServerChangeToken?, moreComing: Bool, error: Error?) {
-        self.serverChangeToken = serverChangeToken
-        if let error = error {
-            observer.on(.error(error)) // special handling for CKErrorChangeTokenExpired (purge local cache, fetch with token=nil)
-            return
-        }
-        if moreComing {
-            self.fetch()
-            return
-        }
-        observer.on(.completed)
+
+				switch CKResultHandler.resultType(with: error) {
+				case .success:
+					self.serverChangeToken = serverChangeToken
+					if moreComing {
+						self.fetch()
+					} else {
+						observer.on(.completed)
+					}
+				case .retry(let timeToWait, _):
+					self.serverChangeToken = serverChangeToken
+					CKResultHandler.retryOperationIfPossible(retryAfter: timeToWait, block: {
+						self.fetch()
+						return
+					})
+				case .recoverableError(let reason):
+					switch reason {
+					case .changeTokenExpired(let message):
+						/// The previousServerChangeToken value is too old and the client must re-sync from scratch
+						os_log("changeTokenExpired: %@", log: Log.zoneChangeFetcher, type: .error, message)
+						self.serverChangeToken = nil
+						self.fetch()
+					default:
+						return
+					}
+				case .fail(let reason):
+					observer.on(.error(reason))
+				default:
+					return
+				}
+
     }
     
     // MARK:- custom
@@ -71,6 +93,7 @@ final class ZoneChangeFetcher {
         operation.changeTokenUpdatedBlock = self.changeTokenUpdatedBlock
         operation.recordZoneWithIDChangedBlock = self.recordZoneWithIDChangedBlock
         operation.recordZoneWithIDWasDeletedBlock = self.recordZoneWithIDWasDeletedBlock
+				operation.fetchDatabaseChangesCompletionBlock = self.fetchDatabaseChangesCompletionBlock
         self.database.add(operation)
     }
     

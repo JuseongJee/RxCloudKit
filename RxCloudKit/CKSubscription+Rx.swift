@@ -13,18 +13,38 @@ public extension Reactive where Base: CKSubscription {
 
     public func save(in database: CKDatabase) -> Maybe<CKSubscription> {
         return Maybe<CKSubscription>.create { maybe in
-            database.save(self.base) { (result, error) in
-                if let error = error {
-                    maybe(.error(error))
-                    return
-                }
-                guard result != nil else {
-                    maybe(.completed)
-                    return
-                }
-                maybe(.success(result!))
-            }
-            return Disposables.create()
+
+			// declare for retry
+			func saveSubscription() {
+				database.save(self.base) { (result, error) in
+					if let error = error {
+						maybe(.error(error))
+						return
+					}
+
+					switch CKResultHandler.resultType(with: error) {
+					case .success:
+						guard result != nil else {
+							maybe(.completed)
+							return
+						}
+						maybe(.success(result!))
+					case .retry(let timeToWait, _):
+						CKResultHandler.retryOperationIfPossible(retryAfter: timeToWait, block: {
+							saveSubscription()
+						})
+					case .fail(let reason):
+						maybe(.error(reason))
+					case .recoverableError(let reason):
+						maybe(.error(reason))
+					default:
+						return
+					}
+				}
+			}
+
+			saveSubscription()
+			return Disposables.create()
         }
     }
     

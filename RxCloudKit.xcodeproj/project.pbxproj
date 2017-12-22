@@ -7,11 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2D6C038F1FEA740A00480378 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D6C03901FEA740A00480378 /* RxSwift.framework */; };
+		2D6C039E1FEB82D300480378 /* CKResultHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D6C039D1FEB82D200480378 /* CKResultHandler.swift */; };
 		944AB41E1EFC28C7003852DF /* RxCloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 944AB4141EFC28C6003852DF /* RxCloudKit.framework */; };
 		944AB4231EFC28C7003852DF /* RxCloudKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 944AB4221EFC28C7003852DF /* RxCloudKitTests.swift */; };
 		944AB4251EFC28C7003852DF /* RxCloudKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 944AB4171EFC28C6003852DF /* RxCloudKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		944AB42F1EFC29DE003852DF /* CKDatabase+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 944AB42E1EFC29DE003852DF /* CKDatabase+Rx.swift */; };
-		944AB4331EFC2AB9003852DF /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 944AB4321EFC2AB9003852DF /* RxSwift.framework */; };
 		94569BE51FABA1F200C5D25A /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94569BE41FABA1F200C5D25A /* Log.swift */; };
 		948486DB1EFC4153009FBD3A /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948486DA1EFC4153009FBD3A /* Error.swift */; };
 		948486DD1EFC415F009FBD3A /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948486DC1EFC415F009FBD3A /* Record.swift */; };
@@ -41,6 +42,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2D6C03901FEA740A00480378 /* RxSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RxSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D6C039D1FEB82D200480378 /* CKResultHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKResultHandler.swift; sourceTree = "<group>"; };
 		944AB4141EFC28C6003852DF /* RxCloudKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RxCloudKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		944AB4171EFC28C6003852DF /* RxCloudKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RxCloudKit.h; sourceTree = "<group>"; };
 		944AB4181EFC28C6003852DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -48,7 +51,6 @@
 		944AB4221EFC28C7003852DF /* RxCloudKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxCloudKitTests.swift; sourceTree = "<group>"; };
 		944AB4241EFC28C7003852DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		944AB42E1EFC29DE003852DF /* CKDatabase+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CKDatabase+Rx.swift"; sourceTree = "<group>"; };
-		944AB4321EFC2AB9003852DF /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = Carthage/Build/iOS/RxSwift.framework; sourceTree = "<group>"; };
 		94569BE41FABA1F200C5D25A /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		94837C511EFDB42600138E22 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		948486DA1EFC4153009FBD3A /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
@@ -77,7 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				944AB4331EFC2AB9003852DF /* RxSwift.framework in Frameworks */,
+				2D6C038F1FEA740A00480378 /* RxSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,6 +120,7 @@
 		944AB4161EFC28C6003852DF /* RxCloudKit */ = {
 			isa = PBXGroup;
 			children = (
+				2D6C039D1FEB82D200480378 /* CKResultHandler.swift */,
 				94569BE41FABA1F200C5D25A /* Log.swift */,
 				BA4F7E2A1F3CC8520044F60E /* Cloud.swift */,
 				BA9E7A0A1F3E254700F450EA /* Local.swift */,
@@ -153,8 +156,8 @@
 		944AB4311EFC2AB8003852DF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2D6C03901FEA740A00480378 /* RxSwift.framework */,
 				94837C511EFDB42600138E22 /* CloudKit.framework */,
-				944AB4321EFC2AB9003852DF /* RxSwift.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -181,7 +184,6 @@
 				944AB4101EFC28C6003852DF /* Frameworks */,
 				944AB4111EFC28C6003852DF /* Headers */,
 				944AB4121EFC28C6003852DF /* Resources */,
-				944AB4301EFC2A87003852DF /* Carthage */,
 				94604A2A1F7EFD4300D9B732 /* Delete Nested Framework(s) */,
 			);
 			buildRules = (
@@ -218,12 +220,12 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = "Maxim Volgin";
 				TargetAttributes = {
 					944AB4131EFC28C6003852DF = {
 						CreatedOnToolsVersion = 8.3;
-						LastSwiftMigration = 0830;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
 					944AB41C1EFC28C6003852DF = {
@@ -269,21 +271,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		944AB4301EFC2A87003852DF /* Carthage */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/RxSwift.framework",
-			);
-			name = Carthage;
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
-		};
 		94604A2A1F7EFD4300D9B732 /* Delete Nested Framework(s) */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -312,6 +299,7 @@
 				948486DD1EFC415F009FBD3A /* Record.swift in Sources */,
 				BA4F7E291F3CC7000044F60E /* Cache.swift in Sources */,
 				94569BE51FABA1F200C5D25A /* Log.swift in Sources */,
+				2D6C039E1FEB82D300480378 /* CKResultHandler.swift in Sources */,
 				948630951F0045A300752EEB /* CKSubscription+Rx.swift in Sources */,
 				948486DF1EFC6047009FBD3A /* RecordFetcher.swift in Sources */,
 				BA9E7A111F3ECE9000F450EA /* Subscription.swift in Sources */,
@@ -354,7 +342,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -362,7 +352,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -392,6 +386,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_SUPPRESS_WARNINGS = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -408,7 +403,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -416,7 +413,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -438,6 +439,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_SUPPRESS_WARNINGS = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -467,7 +469,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -492,7 +494,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = maxvol.RxCloudKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
@@ -504,7 +506,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = maxvol.RxCloudKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -516,7 +518,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = maxvol.RxCloudKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};

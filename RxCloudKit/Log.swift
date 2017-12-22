@@ -12,4 +12,7 @@ struct Log {
     fileprivate static let subsystem: String = Bundle.main.bundleIdentifier ?? ""
     
     static let cache = OSLog(subsystem: subsystem, category: "cache")
+	static let recordChangeFetcher = OSLog(subsystem: subsystem, category: "recordChangeFetcher")
+	static let zoneChangeFetcher = OSLog(subsystem: subsystem, category: "zoneChangeFetcher")
+
 }
