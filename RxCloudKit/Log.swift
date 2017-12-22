@@ -9,7 +9,7 @@
 import os.log
 
 struct Log {
-    fileprivate static let subsystem: String = Bundle.main.bundleIdentifier ?? ""
+    fileprivate static let subsystem: String = Bundle.main.bundleIdentifier ?? "RxCloudKit"
     
     static let cache = OSLog(subsystem: subsystem, category: "cache")
 	static let recordChangeFetcher = OSLog(subsystem: subsystem, category: "recordChangeFetcher")
