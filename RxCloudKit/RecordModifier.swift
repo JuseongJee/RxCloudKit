@@ -76,7 +76,7 @@ final class RecordModifier {
     
     private func modifyRecordsCompletionBlock(records: [CKRecord]?, recordIDs: [CKRecordID]?, error: Error?) {
 
-		switch CKResultHandler.resultType(with: error) {
+		switch ResultHandler.resultType(with: error) {
 		case .success:
 			if let records = records {
 				observer.on(.next(.changed(records)))
@@ -98,7 +98,7 @@ final class RecordModifier {
 		case .recoverableError(let reason):
 			observer.on(.error(reason))
 		case .retry(let timeToWait, _):
-			CKResultHandler.retryOperationIfPossible(retryAfter: timeToWait, block: {
+			ResultHandler.retryOperationIfPossible(retryAfter: timeToWait, block: {
 				self.batch()
 			})
 		}

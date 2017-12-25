@@ -46,7 +46,7 @@ A more detailed implementation of the EVCloudKitDao suitable to IceCream would b
 http://cocoadocs.org/docsets/EVCloudKitDao/3.1.0/index.html
 */
 
-public struct CKResultHandler {
+public struct ResultHandler {
 
 	// MARK: - Public API
 	public enum CKOperationResultType {
@@ -82,7 +82,7 @@ public struct CKResultHandler {
 			return .fail(reason: .unknown("The error returned is not a CKError"))
 		}
 
-		let message = CKResultHandler.returnErrorMessage(for: e.code)
+		let message = ResultHandler.returnErrorMessage(for: e.code)
 
 		switch e.code {
 

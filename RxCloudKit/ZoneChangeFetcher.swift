@@ -51,7 +51,7 @@ final class ZoneChangeFetcher {
     
     private func fetchDatabaseChangesCompletionBlock(serverChangeToken: CKServerChangeToken?, moreComing: Bool, error: Error?) {
 
-				switch CKResultHandler.resultType(with: error) {
+				switch ResultHandler.resultType(with: error) {
 				case .success:
 					self.serverChangeToken = serverChangeToken
 					if moreComing {
@@ -61,7 +61,7 @@ final class ZoneChangeFetcher {
 					}
 				case .retry(let timeToWait, _):
 					self.serverChangeToken = serverChangeToken
-					CKResultHandler.retryOperationIfPossible(retryAfter: timeToWait, block: {
+					ResultHandler.retryOperationIfPossible(retryAfter: timeToWait, block: {
 						self.fetch()
 						return
 					})
