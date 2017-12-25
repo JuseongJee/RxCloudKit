@@ -22,7 +22,7 @@ public extension Reactive where Base: CKSubscription {
 						return
 					}
 
-					switch CKResultHandler.resultType(with: error) {
+					switch ResultHandler.resultType(with: error) {
 					case .success:
 						guard result != nil else {
 							maybe(.completed)
@@ -30,7 +30,7 @@ public extension Reactive where Base: CKSubscription {
 						}
 						maybe(.success(result!))
 					case .retry(let timeToWait, _):
-						CKResultHandler.retryOperationIfPossible(retryAfter: timeToWait, block: {
+						ResultHandler.retryOperationIfPossible(retryAfter: timeToWait, block: {
 							saveSubscription()
 						})
 					case .fail(let reason):

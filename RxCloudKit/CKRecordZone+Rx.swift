@@ -35,7 +35,7 @@ public extension Reactive where Base: CKRecordZone {
             operation.modifyRecordZonesCompletionBlock = { (saved, deleted, error) in
 
 				// modifyRecordZonesCompletionBlock only emmit error of type partialFailure
-				switch CKResultHandler.resultType(with: error) {
+				switch ResultHandler.resultType(with: error) {
 				case .success:
 					single(.success((saved, deleted)))
 				case .fail(let reason):

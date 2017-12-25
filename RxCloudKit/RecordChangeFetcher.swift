@@ -56,7 +56,7 @@ final class RecordChangeFetcher {
 
 	private func recordZoneFetchCompletionBlock(zoneID: CKRecordZoneID, serverChangeToken: CKServerChangeToken?, clientChangeTokenData: Data?, moreComing: Bool, recordZoneError: Error?) {
 
-		switch CKResultHandler.resultType(with: recordZoneError) {
+		switch ResultHandler.resultType(with: recordZoneError) {
 		case .success:
 			self.updateToken(zoneID: zoneID, serverChangeToken: serverChangeToken)
 			if let token = serverChangeToken {
@@ -65,7 +65,7 @@ final class RecordChangeFetcher {
 			os_log("Sync successfully!", log: Log.recordChangeFetcher, type: .info)
 		case .retry(let timeToWait, _):
 			self.updateToken(zoneID: zoneID, serverChangeToken: serverChangeToken)
-			CKResultHandler.retryOperationIfPossible(retryAfter: timeToWait, block: {
+			ResultHandler.retryOperationIfPossible(retryAfter: timeToWait, block: {
 				self.fetch()
 			})
 		case .recoverableError(let reason):
