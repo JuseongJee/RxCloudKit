@@ -112,7 +112,7 @@ public final class Cache {
 		self.fetchDatabaseChanges(fetchCompletionHandler: completionHandler)
 	}
 
-	public func fetchDatabaseChanges(fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+	private func fetchDatabaseChanges(fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
 		let token = self.local.token(for: Cache.privateTokenKey)
 		cloud.privateDB.rx.fetchChanges(previousServerChangeToken: token).subscribe { event in
 			switch event {
@@ -145,7 +145,7 @@ public final class Cache {
 			}.disposed(by: disposeBag)
 	}
 
-	public func fetchZoneChanges(recordZoneIDs: [CKRecordZoneID], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+	private func fetchZoneChanges(recordZoneIDs: [CKRecordZoneID], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
 		var optionsByRecordZoneID: [CKRecordZoneID: CKFetchRecordZoneChangesOptions] = [:]
 
 		let tokenMap = self.local.zoneTokenMap(for: Cache.zoneTokenMapKey)
@@ -187,11 +187,11 @@ public final class Cache {
 			.disposed(by: disposeBag)
 	}
 
-	public func cacheChanged(zoneID: CKRecordZoneID) {
+	private func cacheChanged(zoneID: CKRecordZoneID) {
 		self.cachedZoneIDs.append(zoneID)
 	}
 
-	public func processAndPurgeCachedZones(fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+	private func processAndPurgeCachedZones(fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
 		guard !self.cachedZoneIDs.isEmpty else {
 			completionHandler(.noData)
 			return
@@ -202,7 +202,7 @@ public final class Cache {
 		self.fetchZoneChanges(recordZoneIDs: recordZoneIDs, fetchCompletionHandler: completionHandler)
 	}
 
-	public func resumeLongLivedOperations() {
+	private func resumeLongLivedOperations() {
 		//https://developer.apple.com/documentation/cloudkit/ckoperation
 		cloud.container.fetchAllLongLivedOperationIDs(completionHandler: { (operationIDs, error) in
 			if let error = error {
