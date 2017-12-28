@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2D412C8D1FF0803F0043E857 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D412C8C1FF0803E0043E857 /* Account.swift */; };
 		2D6C038F1FEA740A00480378 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D6C03901FEA740A00480378 /* RxSwift.framework */; };
-		2D6C039E1FEB82D300480378 /* CKResultHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D6C039D1FEB82D200480378 /* CKResultHandler.swift */; };
+		2D6C039E1FEB82D300480378 /* ResultHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D6C039D1FEB82D200480378 /* ResultHandler.swift */; };
 		944AB41E1EFC28C7003852DF /* RxCloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 944AB4141EFC28C6003852DF /* RxCloudKit.framework */; };
 		944AB4231EFC28C7003852DF /* RxCloudKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 944AB4221EFC28C7003852DF /* RxCloudKitTests.swift */; };
 		944AB4251EFC28C7003852DF /* RxCloudKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 944AB4171EFC28C6003852DF /* RxCloudKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -42,8 +43,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2D412C8C1FF0803E0043E857 /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		2D6C03901FEA740A00480378 /* RxSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RxSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		2D6C039D1FEB82D200480378 /* CKResultHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKResultHandler.swift; sourceTree = "<group>"; };
+		2D6C039D1FEB82D200480378 /* ResultHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultHandler.swift; sourceTree = "<group>"; };
 		944AB4141EFC28C6003852DF /* RxCloudKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RxCloudKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		944AB4171EFC28C6003852DF /* RxCloudKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RxCloudKit.h; sourceTree = "<group>"; };
 		944AB4181EFC28C6003852DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -120,7 +122,8 @@
 		944AB4161EFC28C6003852DF /* RxCloudKit */ = {
 			isa = PBXGroup;
 			children = (
-				2D6C039D1FEB82D200480378 /* CKResultHandler.swift */,
+				2D412C8C1FF0803E0043E857 /* Account.swift */,
+				2D6C039D1FEB82D200480378 /* ResultHandler.swift */,
 				94569BE41FABA1F200C5D25A /* Log.swift */,
 				BA4F7E2A1F3CC8520044F60E /* Cloud.swift */,
 				BA9E7A0A1F3E254700F450EA /* Local.swift */,
@@ -299,7 +302,7 @@
 				948486DD1EFC415F009FBD3A /* Record.swift in Sources */,
 				BA4F7E291F3CC7000044F60E /* Cache.swift in Sources */,
 				94569BE51FABA1F200C5D25A /* Log.swift in Sources */,
-				2D6C039E1FEB82D300480378 /* CKResultHandler.swift in Sources */,
+				2D6C039E1FEB82D300480378 /* ResultHandler.swift in Sources */,
 				948630951F0045A300752EEB /* CKSubscription+Rx.swift in Sources */,
 				948486DF1EFC6047009FBD3A /* RecordFetcher.swift in Sources */,
 				BA9E7A111F3ECE9000F450EA /* Subscription.swift in Sources */,
@@ -308,6 +311,7 @@
 				BA9E7A191F3F8C7900F450EA /* RecordModifier.swift in Sources */,
 				BA4F7E2D1F3D6F210044F60E /* ZoneChangeFetcher.swift in Sources */,
 				948486DB1EFC4153009FBD3A /* Error.swift in Sources */,
+				2D412C8D1FF0803F0043E857 /* Account.swift in Sources */,
 				944AB42F1EFC29DE003852DF /* CKDatabase+Rx.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

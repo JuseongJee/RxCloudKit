@@ -6,8 +6,7 @@
 //  Copyright © 2017 Sanppo. All rights reserved.
 //
 /* usage
-private let account = Account()
-account
+Account.shared
 	.status
 	.asDriver(onErrorJustReturn: .couldNotDetermine)
 	.map { (accountStatus) -> String in
@@ -28,6 +27,8 @@ import CloudKit
 
 class Account {
 
+	static let shared = Account()
+
 	// MARK: - Properties
 	private let container = Cloud().container
 
@@ -37,7 +38,7 @@ class Account {
 	public var status: Observable<CKAccountStatus> { return _status.asObservable() }
 
 	// MARK: - Initialization
-	init() {
+	private init() {
 		// Request Account Status
 		requestAccountStatus()
 
