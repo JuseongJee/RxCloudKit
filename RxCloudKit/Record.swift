@@ -144,13 +144,46 @@ public extension RxCKRecord {
                 if label == "metadata" {
                     continue
                 }
-                if let value = anyValue as? CKRecordValue {
+
+				if let rxCKAsset = self as? RxCKAsset {
+					if let asset = rxCKAsset.asset {
+						record.setValue(asset, forKey: label)
+					}
+				} else if let value = anyValue as? RxCKAsset {
+					record.setValue(value.asset, forKey: label)
+				} else if let valueArray = anyValue as? Array<RxCKAsset> {
+					var newArray = Array<CKAsset>()
+					for element in valueArray {
+						if let asset = element.asset {
+							newArray.append(asset)
+						}
+					}
+
+					if newArray.count > 0 {
+						record.setValue(newArray, forKey: label)
+					}
+				} else if anyValue is Array<String>
+					|| anyValue is Array<Int>
+					|| anyValue is Array<Double>
+					|| anyValue is Array<CLLocation>
+					|| anyValue is Array<Data>
+				{
+					if let valueArray = anyValue as? Array<Any> {
+						var newArray = Array<Any>()
+						for element in valueArray {
+							newArray.append(element)
+						}
+
+						if newArray.count > 0 {
+							record.setValue(newArray, forKey: label)
+						}
+					}
+				} else if let value = anyValue as? CKRecordValue {
                     record.setValue(value, forKey: label)
                 } else {
                     throw SerializationError.unsupportedSubType(label: label)
                 }
-//                let value = anyValue as? CKRecordValue
-//                record.setValue(value, forKey: label)
+
             }
         }
     }
