@@ -94,7 +94,7 @@ public struct ResultHandler {
 			// If there is a retry delay specified in the error, then use that.
 			let userInfo = e.userInfo
 			if let retry = userInfo[CKErrorRetryAfterKey] as? Double {
-				print("ErrorHandler - \(message). Should retry in \(retry) seconds.")
+				os_log("ErrorHandler - %@. Should retry in %@ seconds.", log: Log.cache, type: .error, message, retry)
 				return .retry(afterSeconds: retry, message: message)
 			} else {
 				return .fail(reason: .unknown(message))
@@ -103,24 +103,24 @@ public struct ResultHandler {
 		// RECOVERABLE ERROR
 		case .networkUnavailable,
 			 .networkFailure:
-			print("ErrorHandler.recoverableError: \(message)")
+			os_log("ErrorHandler.recoverableError: %@", log: Log.cache, type: .error, message)
 			return .recoverableError(reason: .network(message))
 		case .changeTokenExpired:
-			print("ErrorHandler.recoverableError: \(message)")
+			os_log("ErrorHandler.recoverableError: %@", log: Log.cache, type: .error, message)
 			return .recoverableError(reason: .changeTokenExpired(message))
 		case .serverRecordChanged:
-			print("ErrorHandler.recoverableError: \(message)")
+			os_log("ErrorHandler.recoverableError: %@", log: Log.cache, type: .error, message)
 			return .recoverableError(reason: .serverRecordChanged(message))
 		case .partialFailure:
 			// Normally it shouldn't happen since if CKOperation `isAtomic` set to true
 			if let dictionary = e.userInfo[CKPartialErrorsByItemIDKey] as? NSDictionary {
-				print("ErrorHandler.partialFailure for \(dictionary.count) items; CKPartialErrorsByItemIDKey: \(dictionary)")
+				os_log("ErrorHandler.partialFailure: for $@ items; CKPartialErrorsByItemIDKey: %@", log: Log.cache, type: .error, dictionary.count, dictionary)
 			}
 			return .recoverableError(reason: .partialFailure(message))
 
 		// SHOULD CHUNK IT UP
 		case .limitExceeded:
-			print("ErrorHandler.Chunk: \(message)")
+			os_log("ErrorHandler.Chunk: %@", log: Log.cache, type: .error, message)
 			return .chunk
 
 		// SHARE DATABASE RELATED
@@ -128,37 +128,16 @@ public struct ResultHandler {
 			 .participantMayNeedVerification,
 			 .referenceViolation,
 			 .tooManyParticipants:
-			print("ErrorHandler.Fail: \(message)")
+			os_log("ErrorHandler.Fail: %@", log: Log.cache, type: .error, message)
 			return .fail(reason: .shareRelated(message))
-
-		// FAIL IS THE FINAL, WE REALLY CAN'T DO MORE
-		case .assetFileModified,
-			 .assetFileNotFound,
-			 .badContainer,
-			 .badDatabase,
-			 .batchRequestFailed,
-			 .constraintViolation,
-			 .invalidArguments,
-			 .incompatibleVersion,
-			 .internalError,
-			 .managedAccountRestricted,
-			 .missingEntitlement,
-			 .notAuthenticated,
-			 .operationCancelled,
-			 .permissionFailure,
-			 .resultsTruncated,
-			 .serverResponseLost,
-			 .serverRejectedRequest,
-			 .unknownItem,
-			 .userDeletedZone,
-			 .zoneNotFound:
-			print("ErrorHandler.Fail: \(message)")
-			return .fail(reason: .unknown(message))
-
 		// quota exceeded is sort of a special case where the user has to take action(like spare more room in iCloud) before retry
 		case .quotaExceeded:
-			print("ErrorHandler.Fail: \(message)")
+			os_log("ErrorHandler.Fail: %@", log: Log.cache, type: .error, message)
 			return .fail(reason: .quotaExceeded(message))
+		// FAIL IS THE FINAL, WE REALLY CAN'T DO MORE
+		default:
+			os_log("ErrorHandler.Fail: %@", log: Log.cache, type: .error, message)
+			return .fail(reason: .unknown(message))
 
 		}
 
