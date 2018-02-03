@@ -13,15 +13,25 @@ import CloudKit
 
 public protocol RxCKAsset: RxCKRecord {
 	var uniqueFileName: String { get set }
-	static func assetNameKeyPrefix() -> String
+	static func assetKeyPrefix() -> String
 	static func assetDefaultURL() -> URL
 }
 
 extension RxCKAsset {
+	/** read from CKRecord */
+	public mutating func read(from record: CKRecord) {
+		self.readMetadata(from: record)
+		self.readUserFields(from: record)
+		self.parseAssetFields(record: record)
+	}
 
 	// for not saving this property, so func
-	public static func assetNameKeyPrefix() -> String {
-		return "\(Self.self)_filename_"
+	public static func assetKeyPrefix() -> String {
+		return "RxCKAssetFilename_"
+	}
+
+	public func assetKey() -> String {
+		return "\(Self.assetKeyPrefix())\(Self.reordType)"
 	}
 
 	var asset: CKAsset? {
@@ -35,17 +45,19 @@ extension RxCKAsset {
 	}
 
 	///This is for recreate a path. The old path will be deleted.
-	public mutating func setData(id: String, data: Data) {
-		uniqueFileName = "\(id)_\(UUID().uuidString)"
+	public mutating func setData(self_id: String, data: Data) {
+		uniqueFileName = "\(self_id)"
 		setData(data: data)
 	}
 
-	mutating func setData(path: String, data: Data) {
+	public mutating func setData(path: String, data: Data) {
 		self.uniqueFileName = path
 		setData(data: data)
 	}
 
 	private func setData(data: Data) {
+		guard uniqueFileName != "" else { return }
+
 		let dataPath = Self.assetDefaultURL().appendingPathComponent(uniqueFileName)
 		do {
 			try data.write(to: dataPath)
@@ -61,22 +73,20 @@ extension RxCKAsset {
 		} catch {
 			return nil
 		}
-
 	}
 
-	/*
-	static func parse(from propName: String, record: CKRecord, asset: CKAsset) -> Self? {
-		let assetPathKey = propName + Self.assetNameKeyPrefix()
-		guard let assetPathValue = record.value(forKey: assetPathKey) as? String else { return nil }
-		guard let assetData = NSData(contentsOfFile: asset.fileURL.path) as Data? else { return nil }
-		let asset = Self
-		asset.localPath = assetPathValue
+	mutating func parseAssetFields(record: CKRecord) {
+		let assetPathKey = self.assetKey()
+		guard let recordFilename = record.value(forKey: "uniqueFileName") as? String else { return }
+		uniqueFileName = recordFilename
+		guard let asset = record.value(forKey: assetPathKey) as? CKAsset else { return }
+		guard let assetData = NSData(contentsOfFile: asset.fileURL.path) as Data? else { return }
+
 		// Local cache not exist, save it to local files
-		if !Self.assetFilePaths().contains(assetPathValue) {
-			try! assetData.write(to: Self.assetDefaultURL().appendingPathComponent(assetPathValue))
+		if !Self.assetFilePaths().contains(uniqueFileName) {
+			try! assetData.write(to: Self.assetDefaultURL().appendingPathComponent(uniqueFileName))
 		}
-		return asset
-	}*/
+	}
 
 }
 
@@ -86,7 +96,7 @@ extension RxCKAsset {
 	// xxx/Document/RxAssetStructName/
 	public static func assetDefaultURL() -> URL {
 		let documentDir = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-		let commonAssetPath = documentDir.appendingPathComponent(Self.type)
+		let commonAssetPath = documentDir.appendingPathComponent(Self.reordType)
 		if !FileManager.default.fileExists(atPath: commonAssetPath.path) {
 			do {
 				try FileManager.default.createDirectory(atPath: commonAssetPath.path, withIntermediateDirectories: false, attributes: nil)
@@ -138,7 +148,7 @@ extension RxCKAsset {
 			// Get all iCloud exist files' name
 			let allKeys = record.allKeys()
 			for key in allKeys {
-				if key.contains(Self.assetNameKeyPrefix()) {
+				if key.contains(Self.assetKeyPrefix()) {
 					let valueA = record.value(forKey: key) as? String
 					if let value = valueA, value != "" {
 						allCloudAssetStringValues.append(value)

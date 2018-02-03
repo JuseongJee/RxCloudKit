@@ -10,6 +10,8 @@ import RxSwift
 
 public enum SerializationError: Error {
     case structRequired
+	case noMetadata
     case unknownEntity(name: String)
     case unsupportedSubType(label: String?)
+	case containsNotSavedRecordInProperty(propertyName: String)
 }

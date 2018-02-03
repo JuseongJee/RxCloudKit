@@ -51,6 +51,10 @@ public extension Reactive where Base: CKDatabase {
         return CKRecord.rx.modify(recordsToSave: records, recordIDsToDelete: recordIDs, in: self.base)
     }
 
+	public func getReferenceRecord(from reference: CKReference) -> Maybe<CKRecord> {
+		return CKRecord.rx.fetch(with: reference.recordID, in: self.base)
+	}
+
     // MARK:- subscriptions
 
     public func save(subscription: CKSubscription) -> Maybe<CKSubscription> {
