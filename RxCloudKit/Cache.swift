@@ -6,6 +6,52 @@
 //  Copyright © 2017 Maxim Volgin. All rights reserved.
 //
 
+/*
+// Example of completeCashing()
+// if any changes happened in other device, the linked sub objects have been saved on cloud
+// but client received the changed records with no sub objects but only the information of the relation. ie. '*_refid' or '*_refids'
+// when sub objects' information are changed, there's nothing to do more in other codes
+// So, to sum it up. Relation changed -> Relation information changed, relation itself not received -> Rebuild the relations in this func
+public func completeCashing() {
+	let realm = try! Realm(configuration: RealmConfig.config)
+	let memos = realm.objects(MemoRlmObject.self)
+	var resultMemos = Array<MemoRlmObject>()
+
+	for memo in Array(memos.filter("label_refid != nil AND label = nil")) {
+		print(memo)
+		if let label_refid = memo.label_refid {
+			let memoLabel = realm.objects(MemoLabelRlmObject.self).filter("uid = %@", label_refid).first
+			let index = resultMemos.index(where: { $0.uid == memo.uid })
+			let newMemo: MemoRlmObject
+			if let index = index {
+				newMemo = MemoRlmObject(value: resultMemos.remove(at: index))
+			} else {
+				newMemo = MemoRlmObject(value: memo)
+			}
+			newMemo.label = memoLabel
+			resultMemos.append(newMemo)
+		}
+	}
+
+	// Querying Lists containing primitive values is currently not supported.
+	for memo in Array(memos.filter("labels.@count = 0")).filter({ !$0.labels_refids.isEmpty }) {
+		let memoLabels = Array(realm.objects(MemoLabelRlmObject.self).filter("uid IN %@", memo.labels_refids))
+		let index = resultMemos.index(where: { $0.uid == memo.uid })
+		let newMemo: MemoRlmObject
+		if let index = index {
+			newMemo = MemoRlmObject(value: resultMemos.remove(at: index))
+		} else {
+			newMemo = MemoRlmObject(value: memo)
+		}
+		newMemo.labels.append(objectsIn: memoLabels)
+
+		resultMemos.append(newMemo)
+	}
+
+
+	//update resultMemos array to local database
+}
+*/
 import os.log
 import RxSwift
 import CloudKit
@@ -17,6 +63,8 @@ public protocol CacheDelegate {
     func deleteCache(in zoneID: CKRecordZoneID)
     // any db (via subscription)
     func query(notification: CKQueryNotification, fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void)
+	// call after all cashing projects are done
+	func completeCashing()
 }
 
 public final class Cache {
@@ -101,7 +149,7 @@ public final class Cache {
 //        }
 
         self.fetchDatabaseChanges(fetchCompletionHandler: completionHandler)
-        self.resumeLongLivedOperations()
+		self.resumeLongLivedOperations()
 
     }
 
@@ -194,6 +242,7 @@ public final class Cache {
                     completionHandler(.failed)
                 case .completed:
                     completionHandler(.newData)
+					self.delegate.completeCashing()
                 }
             }
             .disposed(by: disposeBag)
